@@ -3,8 +3,8 @@ import React from 'react'
 
 const About  = () => {
   return (
-    <View className="text-xl">
-      <Text>This is about page</Text>
+    <View className="bg-blue-500 h-full flex-1 justify-center items-center">
+      <Text className='text-3xl '> This Naeem </Text>
     </View>
   )
 }

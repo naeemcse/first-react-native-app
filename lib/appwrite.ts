@@ -39,7 +39,7 @@ const storage = new Storage(client);
 const avatars = new Avatars(client);
 const databases = new Databases(client);
 // Register User
-export const createUser = async({email, password, username}:UserDataType)=> {
+export const createUser = async(email:string, password:string, username:string)=> {
     try {
         const newAccount = await account.create(
             ID.unique(),
@@ -72,9 +72,10 @@ export const createUser = async({email, password, username}:UserDataType)=> {
 
 
 // Sign In
-export async function signIn(email:string, password:string) {
+export async function signIn(email, password) {
     try {
-        const session = await account.createEmailSession(email, password);
+        console.log(email+" "+password)
+        const session = await account.createEmailPasswordSession(email, password);
 
         return session;
     } catch (error) {
@@ -87,6 +88,39 @@ export async function getAccount() {
         const currentAccount = await account.get();
 
         return currentAccount;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+// Get Current User
+export async function getCurrentUser() {
+    try {
+        const currentAccount = await getAccount();
+        if (!currentAccount) throw Error;
+
+        const currentUser = await databases.listDocuments(
+            config.databaseId,
+            config.userCollectionId,
+            [Query.equal("accountId", currentAccount.$id)]
+        );
+
+        if (!currentUser) throw Error;
+
+        return currentUser.documents[0];
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+// Sign Out
+export async function signOut() {
+    try {
+        const session = await account.deleteSession("current");
+
+        return session;
     } catch (error) {
         throw new Error(error);
     }

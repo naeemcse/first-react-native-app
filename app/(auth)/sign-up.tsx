@@ -9,6 +9,7 @@ import {createUser} from "@/lib/appwrite";
 
 
 const SginUp = () => {
+    // const { setUser, setIsLogged } = useGlobalContext();
     const [isSubmitting, setSubmitting] = useState(false);
     const [form, setForm] = useState({
         email: "",
@@ -16,9 +17,23 @@ const SginUp = () => {
         username: "",
     });
 
-    const submit = () => {
+    const submit = async () => {
+        if (form.username === "" || form.email === "" || form.password === "") {
+            Alert.alert("Error", "Please fill in all fields");
+        }
 
-        // createUser() ;
+        setSubmitting(true);
+        try {
+            const result = await createUser(form.email, form.password, form.username);
+            // setUser(result);
+            // setIsLogged(true);
+            if(result)
+            router.replace("/home");
+        } catch (error:any) {
+            Alert.alert("Error", error.message);
+        } finally {
+            setSubmitting(false);
+        }
 
     }
     return (

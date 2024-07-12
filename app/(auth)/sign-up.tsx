@@ -21,14 +21,16 @@ const SginUp = () => {
         if (form.username === "" || form.email === "" || form.password === "") {
             Alert.alert("Error", "Please fill in all fields");
         }
-
         setSubmitting(true);
         try {
             const result = await createUser(form.email, form.password, form.username);
             // setUser(result);
             // setIsLogged(true);
-            if(result)
+            if(result){
+
             router.replace("/home");
+                Alert.alert("Sign Up is done successfully")
+            }
         } catch (error:any) {
             Alert.alert("Error", error.message);
         } finally {

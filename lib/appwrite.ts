@@ -125,3 +125,36 @@ export async function signOut() {
         throw new Error(error);
     }
 }
+
+
+
+
+// Get all video Posts
+export async function getAllPosts() {
+    try {
+        const posts = await databases.listDocuments(
+            config.databaseId,
+            config.videoCollectionId
+        );
+
+        return posts.documents;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+// Get latest created video posts
+export async function getLatestPosts() {
+    try {
+        const posts = await databases.listDocuments(
+            config.databaseId,
+            config.videoCollectionId,
+            [Query.orderDesc("$createdAt"), Query.limit(7)]
+        );
+
+        return posts.documents;
+    } catch (error) {
+        throw new Error(error);
+    }
+}

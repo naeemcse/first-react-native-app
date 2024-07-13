@@ -1,4 +1,5 @@
-
+// @ts-ignore
+// @ts-nocheck
 import { Alert } from "react-native";
 import { useEffect, useState } from "react";
 
@@ -12,7 +13,7 @@ interface UseAppwriteResponse {
     refetch: () => void;
 }
 
-const useAppwrite = ({ fn }:UseAppwriteProps|any):UseAppwriteResponse => {
+const useAppwrite = ({ fn }:UseAppwriteProps):UseAppwriteResponse => {
     const [data, setData] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 

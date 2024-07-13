@@ -22,9 +22,6 @@ export const config ={
 
 }
 
-
-
-
 // Init your React Native SDK
 const client = new Client();
 
@@ -136,7 +133,7 @@ export async function getAllPosts() {
             config.databaseId,
             config.videoCollectionId
         );
-
+        // console.log(posts.documents)
         return posts.documents;
     } catch (error) {
         throw new Error(error);
@@ -152,6 +149,7 @@ export async function getLatestPosts() {
             config.videoCollectionId,
             [Query.orderDesc("$createdAt"), Query.limit(7)]
         );
+        // console.log(posts) // for show all data
 
         return posts.documents;
     } catch (error) {

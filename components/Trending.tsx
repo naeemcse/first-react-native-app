@@ -16,7 +16,7 @@ import { icons } from "@/constants";
 interface Post {
     $id: string;
     video: string;
-    thumbnail: string;
+    url: string;
 }
 
 interface TrendingItemProps {
@@ -51,7 +51,7 @@ const TrendingItem: React.FC<TrendingItemProps> = ({ activeItem, item }) => {
 
     return (
         <Animatable.View
-            className="mr-5"
+            style={{ marginRight: 5 }}
             // @ts-ignore
             animation={activeItem === item.$id ? zoomIn : zoomOut}
             duration={500}
@@ -59,7 +59,7 @@ const TrendingItem: React.FC<TrendingItemProps> = ({ activeItem, item }) => {
             {play ? (
                 <Video
                     source={{ uri: item.video }}
-                    className="w-52 h-72 rounded-[33px] mt-3 bg-white/10"
+                    style={{ width: 208, height: 288, borderRadius: 33, marginTop: 12, backgroundColor: 'rgba(255, 255, 255, 0.1)' }}
                     resizeMode={ResizeMode.CONTAIN}
                     useNativeControls
                     shouldPlay
@@ -71,21 +71,18 @@ const TrendingItem: React.FC<TrendingItemProps> = ({ activeItem, item }) => {
                 />
             ) : (
                 <TouchableOpacity
-                    className="relative flex justify-center items-center"
+                    style={{ width: 208, height: 288, borderRadius: 33, marginTop: 12, justifyContent: 'center', alignItems: 'center', position: 'relative' }}
                     activeOpacity={0.7}
                     onPress={() => setPlay(true)}
                 >
                     <ImageBackground
-                        source={{
-                            uri: item.thumbnail,
-                        }}
-                        className="w-52 h-72 rounded-[33px] my-5 overflow-hidden shadow-lg shadow-black/40"
+                        source={{ uri: item.url }}
+                        style={{ width: 208, height: 288, borderRadius: 33, overflow: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.3, shadowRadius: 3.84 }}
                         resizeMode="cover"
                     />
-
                     <Image
                         source={icons.play}
-                        className="w-12 h-12 absolute"
+                        style={{ width: 48, height: 48, position: 'absolute' }}
                         resizeMode="contain"
                     />
                 </TouchableOpacity>
@@ -95,11 +92,11 @@ const TrendingItem: React.FC<TrendingItemProps> = ({ activeItem, item }) => {
 };
 
 const Trending: React.FC<TrendingProps> = ({ posts }) => {
-    const [activeItem, setActiveItem] = useState(posts[0].$id);
+    const [activeItem, setActiveItem] = useState(posts[0]?.$id || '');
 
     const viewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
-        if (viewableItems.length > 0) {
-            setActiveItem(viewableItems[0].key as string);
+        if (viewableItems.length > 0 && viewableItems[0].item.$id) {
+            setActiveItem(viewableItems[0].item.$id);
         }
     };
 

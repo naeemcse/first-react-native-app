@@ -1,6 +1,6 @@
 import {Image, ScrollView, Text, View} from 'react-native'
 import React from 'react'
-import {router} from "expo-router";
+import {Link, router} from "expo-router";
 import {images} from '../constants';
 import {SafeAreaView} from "react-native-safe-area-context";
 import CustomButton from "@/components/CustomButton";
@@ -43,7 +43,7 @@ const App = () => {
                      Where Creativity Meets Innovation: Embark on a Journey of Limitless
                      Exploration with Aora
                  </Text>
-
+                 <Link className={"text-red-600"} href={"/home"}> Home </Link>
                  <CustomButton title="Continue with Email"
                                  handlePress={() => router.push("/signin")}
                                  containerStyles="w-full mt-7"/>

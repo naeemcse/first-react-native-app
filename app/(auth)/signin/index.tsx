@@ -6,7 +6,7 @@ import {images} from "../../../constants";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import { getCurrentUser, signIn } from "@/lib/appwrite";
-import {useGlobalContext} from "@/contex/GlobalProvider.";
+import {useGlobalContext} from "@/contex/GlobalProvider";
 
 
 const SignIN = () => {
@@ -21,20 +21,22 @@ const SignIN = () => {
         if (form.email === "" || form.password === "") {
             Alert.alert("Error", "Please fill in all fields");
         }
-
         setSubmitting(true);
-
-
         try {
             await signIn(form.email, form.password);
-            const result = await getCurrentUser();
+            const res = await getCurrentUser();
             // setUser(result);
-            // setIsLogged(true);
-            setUser(result);
-            setIsLogged(true);
+            if(res)
             Alert.alert("Success", "User signed in successfully");
-         if(result)
-            router.replace("/home");
+         if(res){
+             setUser({
+                 $id: res.$id,
+                 email: res.email,
+                 username: res.username,
+                 avatar: res.avatar
+             });
+             setIsLogged(true);
+            router.replace("/home");  }
         } catch (error:any) {
             Alert.alert("Error", error.message);
         } finally {

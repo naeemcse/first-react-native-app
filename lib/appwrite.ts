@@ -71,7 +71,7 @@ export const createUser = async(email:string, password:string, username:string)=
 // Sign In
 export async function signIn(email, password) {
     try {
-        console.log(email+" "+password)
+        // console.log(email+" "+password)
         const session = await account.createEmailPasswordSession(email, password);
 
         return session;
@@ -79,11 +79,12 @@ export async function signIn(email, password) {
         throw new Error(error);
     }
 }
+
+
 // Get Account
 export async function getAccount() {
     try {
         const currentAccount = await account.get();
-
         return currentAccount;
     } catch (error) {
         throw new Error(error);
@@ -104,7 +105,6 @@ export async function getCurrentUser() {
         );
 
         if (!currentUser) throw Error;
-
         return currentUser.documents[0];
     } catch (error) {
         console.log(error);
@@ -169,6 +169,21 @@ export async function searchPosts(query) {
 
         if (!posts) throw new Error("Something went wrong");
 // console.log(posts.documents)
+        return posts.documents;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
+
+
+// Get video posts created by user
+export async function getUserPosts(userId) {
+    try {
+        const posts = await databases.listDocuments(
+            config.databaseId,
+            config.videoCollectionId,
+            [Query.equal("creattor", userId)]
+        );
         return posts.documents;
     } catch (error) {
         throw new Error(error);

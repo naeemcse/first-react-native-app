@@ -7,17 +7,22 @@ interface User {
     $id?: string;
     email: string;
     username: string;
+    avatar?: string;
 }
 
 interface GlobalContextProps {
     isLogged: boolean;
-    setIsLogged: (React.Dispatch<React.SetStateAction<boolean>>);
+    setIsLogged: React.Dispatch<React.SetStateAction<boolean>>;
     user: User | null;
-    setUser: React.Dispatch<React.SetStateAction<null>>
+    setUser: (React.Dispatch<React.SetStateAction<User | null>>);
     loading?: boolean;
 }
 // Create a context object,here must be a default value
-const GlobalContext = createContext<GlobalContextProps>({isLogged: false, setIsLogged: () => {}, user: null, setUser: () => {}, loading: true});
+const GlobalContext = createContext<GlobalContextProps>({
+    isLogged: false, setIsLogged: () => {},
+    user: null, setUser: () => {},
+    loading: true
+});
 export const useGlobalContext = () => useContext(GlobalContext);
 
 
@@ -35,7 +40,7 @@ interface GlobalProviderProps {
 
 const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
     const [isLogged, setIsLogged] = useState(false);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -43,7 +48,12 @@ const GlobalProvider: React.FC<GlobalProviderProps> = ({ children }) => {
             .then((res:any) => {
                 if (res) {
                     setIsLogged(true);
-                    setUser(res);
+                    setUser({
+                        $id: res.$id,
+                        email: res.email,
+                        username: res.username,
+                        avatar: res.avatar
+                    });
                 } else {
                     setIsLogged(false);
                     setUser(null);

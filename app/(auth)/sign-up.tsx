@@ -6,10 +6,11 @@ import {images} from "../../constants";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
 import {createUser} from "@/lib/appwrite";
-
+import {useGlobalContext} from "@/contex/GlobalProvider";
 
 const SginUp = () => {
-    // const { setUser, setIsLogged } = useGlobalContext();
+    const { user, setUser,isLogged, setIsLogged } = useGlobalContext();
+
     const [isSubmitting, setSubmitting] = useState(false);
     const [form, setForm] = useState({
         email: "",
@@ -23,11 +24,17 @@ const SginUp = () => {
         }
         setSubmitting(true);
         try {
-            const result = await createUser(form.email, form.password, form.username);
+            const res = await createUser(form.email, form.password, form.username);
             // setUser(result);
             // setIsLogged(true);
-            if(result){
-
+            if(res){
+                setIsLogged(true);
+                setUser({
+                    $id: res.$id,
+                    email: res.email,
+                    username: res.username,
+                    avatar: res.avatar
+                });
             router.replace("/home");
                 Alert.alert("Sign Up is done successfully")
             }

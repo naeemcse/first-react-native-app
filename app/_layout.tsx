@@ -2,7 +2,7 @@ import {useEffect} from "react";
 import {useFonts} from 'expo-font';
 import {Stack} from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-
+import GlobalProvider from "@/contex/GlobalProvider";
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -34,10 +34,12 @@ export default function RootLayout() {
     return null;
   }
   return (
+<GlobalProvider>
       <Stack>
         <Stack.Screen name='index' options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
       </Stack>
+</GlobalProvider>
   );
 }

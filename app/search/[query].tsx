@@ -54,7 +54,8 @@ const Search =  () => {
                                 />
                             </View>
                         </View>
-                        <SearchInput initialQuery={query} />
+                        {/*@ts-ignore*/}
+                        <SearchInput initialQuery={query}/>
                     </View>
                 )}
                 ListEmptyComponent={() => (

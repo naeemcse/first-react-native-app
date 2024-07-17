@@ -67,7 +67,6 @@ export const createUser = async(email:string, password:string, username:string)=
     }
 }
 
-
 // Sign In
 export async function signIn(email, password) {
     try {
@@ -79,7 +78,6 @@ export async function signIn(email, password) {
         throw new Error(error);
     }
 }
-
 
 // Get Account
 export async function getAccount() {
@@ -124,6 +122,32 @@ export async function signOut() {
 }
 
 
+// Create Video Post
+export async function createVideoPost(form) {
+    try {
+        const [thumbnailUrl, videoUrl] = await Promise.all([
+            uploadFile(form.thumbnail, "image"),
+            uploadFile(form.video, "video"),
+        ]);
+
+        const newPost = await databases.createDocument(
+            config.databaseId,
+            config.videoCollectionId,
+            ID.unique(),
+            {
+                title: form.title,
+                thumbnail: thumbnailUrl,
+                video: videoUrl,
+                prompt: form.prompt,
+                creator: form.userId,
+            }
+        );
+
+        return newPost;
+    } catch (error) {
+        throw new Error(error);
+    }
+}
 
 
 // Get all video Posts

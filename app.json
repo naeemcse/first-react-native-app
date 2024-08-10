@@ -14,7 +14,6 @@
     },
     "ios": {
       "supportsTablet": true,
-      "package": "com.naeem.aora"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,6 +33,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "42072afb-d66d-4709-85b2-8ec8ac67dbd3"
+      }
     }
   }
 }
